@@ -1,0 +1,299 @@
+$danger: #cf350a;
+.todo {
+  position: relative;
+  margin: 25px 0px;
+  padding: 0px 10px 10px 10px;
+  border: 2px solid black;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: 13px 13px 47px -4px rgba(0, 0, 0, 0.75);
+
+  &__btns-wrap {
+    display: flex;
+    margin: 0px -10px;
+  }
+
+  &__tabs-btn {
+    flex-basis: 50%;
+    padding: 10px 5px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid transparent;
+    background-color: #fff;
+    position: relative;
+  }
+
+  &__tabs-btn::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -26px;
+    border: 13px solid transparent;
+    border-top: 13px solid black;
+    display: none;
+  }
+
+  &__tabs-btn:first-child {
+    border-top-left-radius: 10px;
+    border-right: 2px solid transparent;
+    border-bottom-right-radius: 10px;
+  }
+  &__tabs-btn:last-child {
+    border-top-right-radius: 10px;
+    border-left: 2px solid transparent;
+    border-bottom-left-radius: 10px;
+  }
+
+  &__tabs-btn.active {
+    border-color: black;
+    background-color: #000;
+    color: white;
+  }
+
+  .todo__tabs-btn.active::before {
+    display: block;
+  }
+
+  &__tabs {
+    position: relative;
+    min-height: 260px;
+    &-item {
+      padding: 10px;
+      border: 2px solid black;
+      border-radius: 5px;
+      width: calc(100% - 20px);
+      position: absolute;
+      top: 65px;
+      left: 0;
+      transform: scaleY(0);
+      transition: ease-in 0.3s;
+    }
+    &-item.active {
+      transform: none;
+    }
+  }
+
+  &__inp-title {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 17px;
+  }
+
+  &__task-title {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  &__task-description {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  &__btn-add,
+  &__btn-search,
+  &__btn-default {
+    width: 100%;
+  }
+
+  &__btn-default {
+    margin-top: 15px;
+    display: none;
+  }
+
+  &__btn-default.active {
+    display: block;
+  }
+
+  &__tasks-actions {
+    margin-top: 30px;
+  }
+
+  //tasks-list
+  &__tasks-list {
+    margin-top: 30px;
+  }
+}
+
+//Menu for select actions
+.tasks-actions {
+  display: flex;
+
+  &__item {
+    flex-basis: 50%;
+    position: relative;
+    border: 2px solid black;
+    padding-left: 3px;
+  }
+
+  &__item:after {
+    content: "\E001";
+    font-family: "icons";
+    color: black;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__item + &__item {
+    margin-left: -2px;
+  }
+
+  &__item-title {
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__item:hover .actions-list {
+    transform: none;
+  }
+}
+
+//actions with all todos
+.actions-list {
+  position: absolute;
+  top: inherit;
+  left: -2px;
+  width: 100%;
+  transform: scaleY(0);
+  transition: ease-in 0.3s;
+  border: 2px solid black;
+  z-index: 5;
+  background-color: #fff;
+}
+
+.actions-list__item {
+  transition: ease-in 0.3s;
+}
+
+.actions-list__item + .actions-list__item {
+  border-top: 2px solid black;
+}
+
+.actions-list__item:hover {
+  cursor: pointer;
+  .actions-list__btn {
+    font-size: 17px;
+    padding: 7px 3px;
+  }
+}
+
+.actions-list__btn {
+  width: 100%;
+  padding: 5px 3px;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  transition: ease-in 0.3s;
+}
+
+.actions-list__btn--highlighted {
+  color: $danger;
+}
+
+//todos
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+
+  &__item-wrap.hide {
+    transform: translateY(150px);
+  }
+
+  &__item-wrap {
+    transition: 0.5s ease-in;
+    transform: translateY(-110px);
+  }
+
+  &__item {
+    position: relative;
+    padding: 35px 10px 15px 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 0;
+    max-height: 150px;
+    height: 100%;
+
+    &-title {
+      margin-bottom: 15px;
+    }
+
+    &-description {
+      margin-bottom: 15px;
+    }
+
+    &-status {
+      position: absolute;
+      right: 0px;
+      top: 0;
+      border: none;
+      border-left: 2px solid black;
+      border-bottom-left-radius: 5px;
+      border-bottom: 2px solid black;
+      padding: 3px 15px;
+    }
+
+    &-btn {
+      flex-basis: 25%;
+    }
+
+    &-btn + &-btn {
+      margin-left: 8px;
+    }
+  }
+
+  &__empty {
+    font-size: 20px;
+    font-weight: bold;
+    width: 75%;
+    text-align: center;
+    margin: 0 auto;
+    color: $danger;
+    line-height: 25px;
+  }
+
+  &__edit-title,
+  &__edit-description {
+    width: 80%;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  &__edit-btn {
+    padding: 5px 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: inline-block;
+  }
+
+  &__edit-wrap {
+    transition: 0.5s ease-in;
+    transform: translateY(-150px);
+  }
+
+  &__edit-wrap.active {
+    transform: translateY(0px);
+  }
+
+  .js-taskBtnEdit[disabled="disable"],
+  .js-taskBtnDone[disabled="disable"],
+  .js-taskBtnDelete[disabled="disable"],
+  .js-taskBtnHold[disabled="disable"] {
+    opacity: 0.15;
+  }
+
+  &__item + &__item {
+    margin-top: 30px;
+  }
+
+  &__btns-wrap {
+    display: flex;
+  }
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="css/styles.min.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <section class="todo">
+        <div class="preloader-wrapper js-preloaderWrapper">
+          <div class="bubblingG">
+            <span id="bubblingG_1"></span>
+            <span id="bubblingG_2"></span>
+            <span id="bubblingG_3"></span>
+          </div>
+        </div>
+        <div class="todo__tabs">
+          <div class="todo__btns-wrap">
+            <button class="todo__tabs-btn btn js-tabsBtn active">
+              Add New
+            </button>
+            <button class="todo__tabs-btn btn js-tabsBtn">
+              Search
+            </button>
+          </div>
+          <div class="todo__tabs-item js-tabsItem active">
+            <label for="task-title" class="todo__inp-title">Title</label>
+            <input
+              id="task-title"
+              type="text"
+              class="todo__task-title inp js-taskTitle"
+            />
+            <label for="task-description" class="todo__inp-title"
+              >Description</label
+            >
+            <input
+              id="task-description"
+              type="text"
+              class="todo__task-description inp js-taskDescription"
+            />
+            <button class="todo__btn-add btn js-btnAddToDo">Add</button>
+          </div>
+          <div class="todo__tabs-item js-tabsItem">
+            <label for="task-title" class="todo__inp-title">Title</label>
+            <input
+              id="task-title"
+              type="text"
+              placeholder="Search by title"
+              class="todo__task-title inp js-taskTitleForSearch"
+            />
+            <button
+              class="todo__btn-search btn js-btnSearchToDo"
+              disabled="disable"
+            >
+              Search
+            </button>
+            <button class="todo__btn-default btn js-btnShowAllTasks">
+              Show all tasks
+            </button>
+          </div>
+        </div>
+        <ul class="todo__tasks-actions tasks-actions">
+          <li class="tasks-actions__item">
+            <a class="tasks-actions__item-title">Bulk actions</a>
+            <ul class="tasks-actions__item-list actions-list">
+              <li class="actions-list__item">
+                <button class="actions-list__btn js-bulkActionsBtnHold">
+                  Hold/Unhold
+                </button>
+              </li>
+              <li class="actions-list__item">
+                <button class="actions-list__btn js-bulkActionsBtnDone">
+                  Mark as done
+                </button>
+              </li>
+              <li class="actions-list__item">
+                <button
+                  class="actions-list__btn actions-list__btn--highlighted js-bulkActionsBtnRemove"
+                >
+                  Remove
+                </button>
+              </li>
+            </ul>
+          </li>
+          <li class="tasks-actions__item">
+            <span class="tasks-actions__item-title">Sort</span>
+            <ul class="tasks-actions__item-list actions-list">
+              <li class="actions-list__item">
+                <button class="actions-list__btn js-btnSortByStatus">
+                  By status
+                </button>
+              </li>
+              <li class="actions-list__item">
+                <button class="actions-list__btn js-btnSortByTitle">
+                  By title
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <div class="todo__tasks-list tasks-list js-tasksList"></div>
+      </section>
+    </div>
+    <script src="js/tabs.js"></script>
+    <script src="js/toDoItem.js"></script>
+    <script src="js/toDoStore.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/preloader.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
