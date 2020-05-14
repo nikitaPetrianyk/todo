@@ -5,11 +5,13 @@ class TodoStorage {
 
     addTodo(todo) {
         this.todos.push(todo);
-        return this.todos;
     }
 
     removeToDo(todo) {
         this.todos = this.todos.filter(item => item.id !== todo.id);
+    }
+
+    getTodos() {
         return this.todos;
     }
 
@@ -40,16 +42,6 @@ class TodoStorage {
         return this.todos;
     }
 
-    holdToDo(todo) {
-        let changingTodo = this.todos.find(item => item.id === todo.id);
-        if (changingTodo.status !== 'Hold') {
-            changingTodo.status = 'Hold';
-        } else {
-            changingTodo.status = "Pending";
-        }
-        return changingTodo;
-    }
-
     editToDo(todo, title, description) {
         let changingTodo = this.todos.find(item => item.id === todo.id);
         changingTodo.title = title;
@@ -61,13 +53,17 @@ class TodoStorage {
         return this.editToDo(todo, title, description);
     }
 
-    doneToDo(todo) {
+    hasStatus(todo, status) {
+        let hasStatus = true;
+        hasStatus = todo.status !== status ? true : false;
+        console.log(hasStatus);
+        return hasStatus;
+    }
+
+    setStatus(todo, status, statusPending) {
         let changingTodo = this.todos.find(item => item.id === todo.id);
-        if (changingTodo.status !== 'Done') {
-            changingTodo.status = 'Done';
-        } else {
-            changingTodo.status = "Pending";
-        }
+        let hasStatus = this.hasStatus(todo, status);
+        hasStatus ? changingTodo.status = status : changingTodo.status = statusPending;
         return changingTodo;
     }
 
@@ -84,11 +80,9 @@ class TodoStorage {
         return sortedByAlphabet;
     }
 
-    sortByStatusAndTitle(todos) {
+    makeArrayOfSubcollections() {
         let [pendingTodos, holdedTodos, doneTodos] = [[], [], []];
-        let sortedByStatusAndTitle = [];
-
-        todos.forEach(item => {
+        this.todos.forEach(item => {
             if (item.status === "Pending") {
                 pendingTodos.push(item)
             } else if (item.status === "Hold") {
@@ -97,22 +91,31 @@ class TodoStorage {
                 doneTodos.push(item)
             }
         })
-
         let arrayOfSubcollections = [doneTodos, holdedTodos, pendingTodos];
+        return arrayOfSubcollections;
+    }
+
+    sortByTitleArrayOfSubcollections(arrayOfSubcollections) {
+        let sortedByStatusAndTitle = [];
         arrayOfSubcollections.forEach(item => {
             this.sortByTitle(item);
             sortedByStatusAndTitle.push(...item);
         })
+        return sortedByStatusAndTitle;
+    }
 
+    sortByStatus() {
+        let arrayOfSubcollections = this.makeArrayOfSubcollections();
+        let sortedByStatusAndTitle = this.sortByTitleArrayOfSubcollections(arrayOfSubcollections);
         return sortedByStatusAndTitle;
     }
 
     findTodos(searchValue) {
         let lowerCaseSearchValue = searchValue.toLowerCase();
-        let filteredTodos = this.todos.filter(item => {
+        let filteredBySearchValueTodos = this.todos.filter(item => {
             let lowerCaseTitle = item.title.toLowerCase();
             return lowerCaseTitle.startsWith(lowerCaseSearchValue)
         });
-        return filteredTodos;
+        return filteredBySearchValueTodos;
     }
 }

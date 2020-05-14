@@ -12,9 +12,13 @@ const showTabItem = (index) => {
     } else return;
 }
 
-for (let i = 0; i < tabBtns.length; i++) {
-    tabBtns[i].addEventListener('click', () => {
-        showTabItem(i);
-    })
+const subscribeListenersToBtns = (cb, btnsList) => {
+    for (let i = 0; i < btnsList.length; i++) {
+        btnsList[i].addEventListener('click', () => {
+            cb(i);
+        })
+    }
 }
+
+subscribeListenersToBtns(showTabItem, tabBtns);
 

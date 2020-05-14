@@ -37,6 +37,7 @@ class RenderTodos {
           </div>`
         this.changeBtnStatus(todos[i], i);
         this.freezeActions(i, todos[i].status);
+        // storage.hasStatus(todos[i], todos[i].status);
       }
     }
     this.subscribeListeners(todos);
@@ -124,17 +125,18 @@ class RenderTodos {
           preloader.setPreloader(preloaderWrapper);
           setTimeout(() => {
             preloader.removePreloader(preloaderWrapper);
-            todos = storage.removeToDo(todos[i], i);
+            storage.removeToDo(todos[i], i);
+            todos = storage.getTodos();
             this.printTodos(todos, tasksListArea);
           }, 1000);
         } else if (event.target.classList.contains('js-taskBtnHold')) {
-          let changedToDo = storage.holdToDo(todos[i]);
+          let changedToDo = storage.setStatus(todos[i], "Hold", "Pending");
           todos.splice(i, changedToDo)
           this.changeToDoStatus(todos, i);
           this.changeBtnStatus(todos[i], i);
           this.freezeActions(i, todos[i].status);
         } else if (event.target.classList.contains('js-taskBtnDone')) {
-          let changedToDo = storage.doneToDo(todos[i]);
+          let changedToDo = storage.setStatus(todos[i], "Done", "Pending");
           todos.splice(i, changedToDo)
           this.changeToDoStatus(todos, i);
           this.changeBtnStatus(todos[i], i);

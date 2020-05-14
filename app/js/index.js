@@ -13,6 +13,12 @@ let bulkActionsBtnHold = document.querySelector('.js-bulkActionsBtnHold');
 let bulkActionsBtnDone = document.querySelector('.js-bulkActionsBtnDone');
 let bulkActionsBtnRemove = document.querySelector('.js-bulkActionsBtnRemove');
 
+const TODO_STATUS = {
+    hold: 'Hold',
+    pending: 'Pending',
+    done: 'Done'
+}
+
 let storage = new TodoStorage();
 let preloader = new Preloader();
 
@@ -90,7 +96,7 @@ btnSortByStatus.addEventListener('click', () => {
     preloader.setPreloader(preloaderWrapper);
     setTimeout(() => {
         preloader.removePreloader(preloaderWrapper);
-        let sortedTodos = storage.sortByStatusAndTitle(storage.todos);
+        let sortedTodos = storage.sortByStatus(storage.todos);
         render.printTodos(sortedTodos, tasksListArea);
     }, 1000);
 
