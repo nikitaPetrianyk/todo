@@ -60,40 +60,51 @@ class RenderTodos {
   }
 
   changeBtnStatus(todo, index) {
-    let btnDone = document.querySelectorAll('.js-taskBtnDone');
-    let btnHold = document.querySelectorAll('.js-taskBtnHold');
-    todo.status === "Done" ? btnDone[index].innerHTML = "Undo" : btnDone[index].innerHTML = "Done";
-    todo.status === "Hold" ? btnHold[index].innerHTML = "Unhold" : btnHold[index].innerHTML = "Hold";
+    let btnsDone = document.querySelectorAll('.js-taskBtnDone');
+    let btnsHold = document.querySelectorAll('.js-taskBtnHold');
+    todo.status === "Done" ? btnsDone[index].innerHTML = "Undo" : btnsDone[index].innerHTML = "Done";
+    todo.status === "Hold" ? btnsHold[index].innerHTML = "Unhold" : btnsHold[index].innerHTML = "Hold";
+  }
+
+  removeAttributeOnItems(items, attribute) {
+    items.forEach((item) => {
+      let hasAttribute = item.getAttribute(attribute);
+      if (hasAttribute) item.removeAttribute(attribute)
+    });
+  }
+
+  replaceAttributeOnItems(items, attribute, attributeValue) {
+    items.forEach((item) => {
+      let attrValue = item.getAttribute(attribute);
+      attrValue === attributeValue ? item.removeAttribute(attribute) : item.setAttribute(attribute, attributeValue)
+    });
+  }
+
+  getItemsActionBtns() {
+    let btnsEdit = document.querySelectorAll('.js-taskBtnEdit');
+    let btnsDelete = document.querySelectorAll('.js-taskBtnDelete');
+    let btnsHold = document.querySelectorAll('.js-taskBtnHold');
+    let btnsDone = document.querySelectorAll('.js-taskBtnDone');
+    return [btnsEdit, btnsDelete, btnsHold, btnsDone]
+  }
+
+  makeArrayOfButtonsForFreezing(index, status, btnsEdit, btnsDelete, btnsHold, btnsDone) {
+    let frozenBtns;
+    (status === "Hold") ? frozenBtns = [btnsEdit[index], btnsDelete[index], btnsDone[index]] :
+      (status === "Done") ? frozenBtns = [btnsEdit[index], btnsHold[index]] :
+        frozenBtns = [btnsEdit[index], btnsDelete[index], btnsHold[index], btnsDone[index]]
+    return frozenBtns;
+  }
+
+  removeOrReplaceAttributesOnItems(items, status, attribute, attributeValue) {
+    (status === "Pending") ? this.removeAttributeOnItems(items, attribute)
+      : this.replaceAttributeOnItems(items, attribute, attributeValue);
   }
 
   freezeActions(index, status) {
-    let btnsEdit = document.querySelectorAll('.js-taskBtnEdit');
-    let btnsDelete = document.querySelectorAll('.js-taskBtnDelete');
-    let btnsDone = document.querySelectorAll('.js-taskBtnDone');
-    let btnsHold = document.querySelectorAll('.js-taskBtnHold');
-    let frozenBtns;
-    if (status === "Hold") {
-      frozenBtns = [btnsEdit[index], btnsDelete[index], btnsDone[index]];
-    } else if (status === "Done") {
-      frozenBtns = [btnsEdit[index], btnsHold[index]];
-    } else if (status === "Pending") {
-      frozenBtns = [btnsEdit[index], btnsDelete[index], btnsHold[index], btnsDone[index]];
-      frozenBtns.forEach((item) => {
-        let attrValue = item.getAttribute('disabled');
-        if (attrValue === "disable") {
-          item.removeAttribute('disabled')
-        }
-      });
-      return;
-    }
-    frozenBtns.forEach((item) => {
-      let attrValue = item.getAttribute('disabled');
-      if (attrValue === "disable") {
-        item.removeAttribute('disabled')
-      } else {
-        item.setAttribute('disabled', 'disable')
-      }
-    });
+    let [btnsEdit, btnsDelete, btnsHold, btnsDone] = this.getItemsActionBtns(index);
+    let frozenBtns = this.makeArrayOfButtonsForFreezing(index, status, btnsEdit, btnsDelete, btnsHold, btnsDone);
+    this.removeOrReplaceAttributesOnItems(frozenBtns, status, 'disabled', 'disable');
   }
 
   enableEditingmode(todos, index) {
