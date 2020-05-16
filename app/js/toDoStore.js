@@ -15,31 +15,8 @@ class TodoStorage {
         return this.todos;
     }
 
-    holdAllTodos(isHolded) {
-        if (!isHolded) {
-            this.todos.forEach(item => {
-                item.status = "Hold";
-            })
-            isHolded = true;
-        } else {
-            this.todos.forEach(item => {
-                item.status = "Pending";
-            })
-            isHolded = false;
-        }
-        return [this.todos, isHolded];
-    }
-
-    doneAllTodos() {
-        this.todos.forEach(item => {
-            item.status = "Done"
-        })
-        return this.todos;
-    }
-
     removeAllTodos() {
         this.todos = [];
-        return this.todos;
     }
 
     editToDo(todo, title, description) {
@@ -54,17 +31,19 @@ class TodoStorage {
     }
 
     hasStatus(todo, status) {
-        let hasStatus = true;
-        hasStatus = todo.status !== status ? true : false;
-        console.log(hasStatus);
-        return hasStatus;
+        return todo.status !== status ? true : false;
     }
 
     setStatus(todo, status, statusPending) {
         let changingTodo = this.todos.find(item => item.id === todo.id);
-        let hasStatus = this.hasStatus(todo, status);
-        hasStatus ? changingTodo.status = status : changingTodo.status = statusPending;
+        this.hasStatus(todo, status) ? changingTodo.status = status : changingTodo.status = statusPending;
         return changingTodo;
+    }
+
+    setStatusToAll(status, statusPending) {
+        this.todos.forEach(item => {
+            this.hasStatus(item, status) ? item.status = status : item.status = statusPending;
+        })
     }
 
     sortByTitle(todos) {

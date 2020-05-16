@@ -2,44 +2,55 @@ class RenderTodos {
 
   constructor() { }
 
+  printInfoAboutEmpty(printArea) {
+    printArea.innerHTML = `<p class = "tasks-list__empty">Todos list is empty.</p>`
+  }
+
+  getTemplateTodo(status, title, description) {
+    return `  <div class="tasks-list__item js-tasksListItem">
+                  <span class="tasks-list__item-status js-toDoStatus">${status}</span>
+                  <div class = "tasks-list__edit-wrap js-editWrap">
+                      <input type="text" class = "tasks-list__edit-title js-editTitle inp" value = "${title}">
+                      <input type="text" class = "tasks-list__edit-description js-editDescription inp" value = "${description}">
+                      <button class="tasks-list__edit-btn btn js-btnSave">Save</button>
+                      <button class="tasks-list__edit-btn btn js-btnCancel">Cancel</button>
+                  </div>
+                  <div class ="tasks-list__item-wrap js-itemWrap">
+                      <h3 class="tasks-list__item-title">${title}</h3>
+                      <p class="tasks-list__item-description">${description}</p>
+                      <div class="tasks-list__btns-wrap">
+                          <button class="tasks-list__item-btn btn js-taskBtnEdit">
+                            Edit
+                          </button>
+                          <button class="tasks-list__item-btn btn js-taskBtnDelete">
+                            Delete
+                          </button>
+                          <button class="tasks-list__item-btn btn js-taskBtnHold">
+                            Hold
+                          </button>
+                          <button class="tasks-list__item-btn btn js-taskBtnDone">
+                            Done
+                          </button>
+                        </div>
+                    </div>
+                </div>`
+  }
+
   printTodos(todos, printArea) {
-    printArea.innerHTML = null;
-    if (todos.length == 0) {
-      printArea.innerHTML = `<p class = "tasks-list__empty">Todos list is empty.</p>`
-    } else {
-      for (let i = 0; i < todos.length; i++) {
-        printArea.innerHTML += `  <div class="tasks-list__item js-tasksListItem">
-            <span class="tasks-list__item-status js-toDoStatus">${todos[i].status}</span>
-            <div class = "tasks-list__edit-wrap js-editWrap">
-            <input type="text" class = "tasks-list__edit-title js-editTitle inp" value = "${todos[i].title}">
-            <input type="text" class = "tasks-list__edit-description js-editDescription inp" value = "${todos[i].description}">
-            <button class="tasks-list__edit-btn btn js-btnSave">Save</button>
-            <button class="tasks-list__edit-btn btn js-btnCancel">Cancel</button>
-            </div>
-            <div class ="tasks-list__item-wrap js-itemWrap">
-            <h3 class="tasks-list__item-title">${todos[i].title}</h3>
-            <p class="tasks-list__item-description">${todos[i].description}</p>
-            <div class="tasks-list__btns-wrap">
-              <button class="tasks-list__item-btn btn js-taskBtnEdit">
-                Edit
-              </button>
-              <button class="tasks-list__item-btn btn js-taskBtnDelete">
-                Delete
-              </button>
-              <button class="tasks-list__item-btn btn js-taskBtnHold">
-                Hold
-              </button>
-              <button class="tasks-list__item-btn btn js-taskBtnDone">
-                Done
-              </button>
-            </div>
-            </div>
-          </div>`
-        this.changeBtnStatus(todos[i], i);
-        this.freezeActions(i, todos[i].status);
-        // storage.hasStatus(todos[i], todos[i].status);
-      }
+    for (let i = 0; i < todos.length; i++) {
+      printArea.innerHTML += this.getTemplateTodo(todos[i].status, todos[i].title, todos[i].description);
+      this.changeBtnStatus(todos[i], i);
+      this.freezeActions(i, todos[i].status);
     }
+  }
+
+  render(todos, printArea) {
+    printArea.innerHTML = null;
+    todos.length == 0 ? this.printInfoAboutEmpty(printArea) : this.printTodos(todos, printArea);
+  }
+
+  init(todos, printArea) {
+    this.render(todos, printArea)
     this.subscribeListeners(todos);
   }
 

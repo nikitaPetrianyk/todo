@@ -29,7 +29,7 @@ storage.addTodo(todoItem);
 storage.addTodo(todoItem1);
 
 let render = new RenderTodos();
-render.printTodos(storage.todos, tasksListArea);
+render.init(storage.todos, tasksListArea);
 
 {
     let taskTitle = document.querySelector('.js-taskTitle');
@@ -103,13 +103,12 @@ btnSortByStatus.addEventListener('click', () => {
 })
 
 {
-    let isHolded = false;
     bulkActionsBtnHold.addEventListener('click', () => {
         preloader.setPreloader(preloaderWrapper);
         setTimeout(() => {
             preloader.removePreloader(preloaderWrapper);
-            [storage.todos, isHolded] = storage.holdAllTodos(isHolded);
-            render.printTodos(storage.todos, tasksListArea);
+            storage.setStatusToAll("Hold", "Pending");
+            render.init(storage.todos, tasksListArea);
         }, 1000);
     })
 }
@@ -118,8 +117,8 @@ bulkActionsBtnDone.addEventListener('click', () => {
     preloader.setPreloader(preloaderWrapper);
     setTimeout(() => {
         preloader.removePreloader(preloaderWrapper);
-        storage.doneAllTodos();
-        render.printTodos(storage.todos, tasksListArea);
+        storage.setStatusToAll("Done", "Pending");
+        render.init(storage.todos, tasksListArea);
     }, 1000);
 })
 
