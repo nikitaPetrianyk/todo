@@ -51,7 +51,7 @@ class RenderTodos {
 
   init(todos, printArea) {
     this.render(todos, printArea)
-    this.subscribeListeners(todos);
+    this.subscribeListeners(todos, printArea);
   }
 
   changeToDoStatus(todos, index) {
@@ -107,40 +107,69 @@ class RenderTodos {
     this.removeOrReplaceAttributesOnItems(frozenBtns, status, 'disabled', 'disable');
   }
 
-  enableEditingmode(todos, index) {
+  addTimeout(cb, ...paramsOfCb) {
+    setTimeout(() => cb(...paramsOfCb), 1000);
+  }
+
+  setListener(type, item, cb, ...paramsOfCb) {
+    item.addEventListener(type, () => {
+      cb(...paramsOfCb);
+    })
+  }
+
+  openEditingMenu(editWrap, itemWrap, index) {
+    editWrap[index].classList.add('active');
+    itemWrap[index].classList.add('hide');
+  }
+
+  closeEditingMenu(editWrap, itemWrap, index) {
+    editWrap[index].classList.remove('active');
+    itemWrap[index].classList.remove('hide');
+  }
+
+  enablePreloader() {
+    let preloaderWrapper = document.querySelector('.js-preloaderWrapper');
+    let preloader = new Preloader();
+    preloader.setPreloader(preloaderWrapper);
+    this.addTimeout(preloader.removePreloader, preloaderWrapper);
+  }
+
+  editTodo(changingTitleFields, changingDescriptionFields, todos, index) {
+    let changedTaskTitle = changingTitleFields[index].value;
+    let changedTaskDescription = changingDescriptionFields[index].value;
+    let changedToDo = storage.saveChanges(todos[index], changedTaskTitle, changedTaskDescription);
+    return changedToDo;
+  }
+
+  printTodosWithChangedToDo(todos, index, changedToDo, printArea) {
+    todos.splice(index, changedToDo);
+    this.init(todos, printArea);
+  }
+
+  handleSaveBtnClick(editTitleFields, editDescriptionFields, todos, index, printArea) {
+    this.enablePreloader();
+    let changedToDo = this.editTodo(editTitleFields, editDescriptionFields, todos, index);
+    this.addTimeout(() => { this.printTodosWithChangedToDo(todos, index, changedToDo, printArea); });
+  }
+
+  enableEditingmode(todos, index, printArea) {
     let editWrap = document.querySelectorAll('.js-editWrap');
     let editTitleFields = document.querySelectorAll('.js-editTitle');
     let editDescriptionFields = document.querySelectorAll('.js-editDescription');
     let btnsSave = document.querySelectorAll('.js-btnSave');
     let btnsCancel = document.querySelectorAll('.js-btnCancel');
     let itemWrap = document.querySelectorAll('.js-itemWrap');
-    editWrap[index].classList.add('active');
-    itemWrap[index].classList.add('hide');
-    btnsSave[index].addEventListener('click', () => {
-      let preloaderWrapper = document.querySelector('.js-preloaderWrapper');
-      let preloader = new Preloader();
-      preloader.setPreloader(preloaderWrapper);
-      setTimeout(() => {
-        preloader.removePreloader(preloaderWrapper);
-        let taskTitle = editTitleFields[index].value;
-        let taskDescription = editDescriptionFields[index].value;
-        let changedToDo = storage.saveChanges(todos[index], taskTitle, taskDescription);
-        todos.splice(index, changedToDo);
-        this.printTodos(todos, tasksListArea);
-      }, 1000);
-    })
-    btnsCancel[index].addEventListener('click', () => {
-      editWrap[index].classList.remove('active');
-      itemWrap[index].classList.remove('hide');
-    })
+    this.openEditingMenu(editWrap, itemWrap, index);
+    this.setListener('click', btnsSave[index], () => this.handleSaveBtnClick(editTitleFields, editDescriptionFields, todos, index, printArea))
+    this.setListener('click', btnsCancel[index], this.closeEditingMenu, editWrap, itemWrap, index);
   }
 
-  subscribeListeners(todos) {
+  subscribeListeners(todos, printArea) {
     let tasksListItem = document.querySelectorAll('.js-tasksListItem');
     for (let i = 0; i < tasksListItem.length; i++) {
       tasksListItem[i].addEventListener('click', (event) => {
         if (event.target.classList.contains('js-taskBtnEdit')) {
-          this.enableEditingmode(todos, i);
+          this.enableEditingmode(todos, i, printArea);
         } else if (event.target.classList.contains('js-taskBtnDelete')) {
           let preloaderWrapper = document.querySelector('.js-preloaderWrapper');
           let preloader = new Preloader();
@@ -149,7 +178,7 @@ class RenderTodos {
             preloader.removePreloader(preloaderWrapper);
             storage.removeToDo(todos[i], i);
             todos = storage.getTodos();
-            this.printTodos(todos, tasksListArea);
+            this.init(todos, printArea);
           }, 1000);
         } else if (event.target.classList.contains('js-taskBtnHold')) {
           let changedToDo = storage.setStatus(todos[i], "Hold", "Pending");
