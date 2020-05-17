@@ -1,5 +1,8 @@
+//wrappers
 let tasksListArea = document.querySelector('.js-tasksList');
 let preloaderWrapper = document.querySelector('.js-preloaderWrapper')
+
+//tabs btns
 let btnAddToDo = document.querySelector('.js-btnAddToDo');
 let btnSearchToDo = document.querySelector('.js-btnSearchToDo');
 let btnShowDefaultTasks = document.querySelector('.js-btnShowAllTasks');
@@ -22,118 +25,124 @@ const TODO_STATUS = {
 let storage = new TodoStorage();
 let preloader = new Preloader();
 
-let todoItem = new TodoItem('Первый таск', "Сделать верстку для планировщика заданий");
-let todoItem1 = new TodoItem('Второй таск', "Сделать логику для планировщика заданий");
-
-storage.addTodo(todoItem);
-storage.addTodo(todoItem1);
+let defaultTaskOne = new TodoItem('Создать другие таски', "Ввести данные таска и нажать на кнопку 'Add'");
+storage.addTodo(defaultTaskOne);
 
 let render = new RenderTodos();
 render.init(storage.todos, tasksListArea);
 
-
-const addNewToDo = (titleDOMElement, descriptionDOMElement) => {
-    let taskTitleValue = titleDOMElement.value;
-    let taskDescriptionValue = descriptionDOMElement.value;
-    let todo = new TodoItem(taskTitleValue, taskDescriptionValue);
-    storage.addTodo(todo);
-}
-
+//button listeners
 {
     let taskTitle = document.querySelector('.js-taskTitle');
     let taskDescription = document.querySelector('.js-taskDescription');
-
-    btnAddToDo.addEventListener('click', () => {
-        preloader.setPreloader(preloaderWrapper);
-        setTimeout(() => {
-            preloader.removePreloader(preloaderWrapper);
-            addNewToDo(taskTitle, taskDescription);
-            render.init(storage.todos, tasksListArea);
-            taskTitle.value = "";
-            taskDescription.value = "";
-        }, 1000);
-    })
-
+    btnAddToDo.addEventListener('click', () => handleAddToDo(storage.todos, taskTitle, taskDescription, tasksListArea));
 }
-
-
-let taskTitleForSearch = document.querySelector('.js-taskTitleForSearch');
-// btnSearchToDo.setAttribute('disabled', 'disable')
-taskTitleForSearch.addEventListener('keyup', () => {
-    value = taskTitleForSearch.value;
-    if (value.length !== 0) {
-        btnSearchToDo.removeAttribute('disabled');
-    } else {
-        btnSearchToDo.setAttribute('disabled', 'disable')
-    }
-})
-
-btnSearchToDo.addEventListener('click', () => {
-    preloader.setPreloader(preloaderWrapper);
-    setTimeout(() => {
-        preloader.removePreloader(preloaderWrapper);
-        let taskTitleForSearchValue = taskTitleForSearch.value;
-        let filteredTodos = storage.findTodos(taskTitleForSearchValue);
-        btnShowDefaultTasks.classList.add('active');
-        taskTitleForSearch.value = "";
-        render.init(filteredTodos, tasksListArea);
-    }, 1000);
-})
-
-btnShowDefaultTasks.addEventListener('click', () => {
-    preloader.setPreloader(preloaderWrapper);
-    setTimeout(() => {
-        preloader.removePreloader(preloaderWrapper);
-        render.init(storage.todos, tasksListArea);
-        btnShowDefaultTasks.classList.remove('active');
-    }, 1000);
-})
-
-btnSortByTitle.addEventListener('click', () => {
-    preloader.setPreloader(preloaderWrapper);
-    setTimeout(() => {
-        preloader.removePreloader(preloaderWrapper);
-        let sortedTodos = storage.sortByTitle(storage.todos);
-        render.init(sortedTodos, tasksListArea);
-    }, 1000);
-})
-
-btnSortByStatus.addEventListener('click', () => {
-    preloader.setPreloader(preloaderWrapper);
-    setTimeout(() => {
-        preloader.removePreloader(preloaderWrapper);
-        let sortedTodos = storage.sortByStatus(storage.todos);
-        render.init(sortedTodos, tasksListArea);
-    }, 1000);
-
-})
 
 {
-    bulkActionsBtnHold.addEventListener('click', () => {
-        preloader.setPreloader(preloaderWrapper);
-        setTimeout(() => {
-            preloader.removePreloader(preloaderWrapper);
-            storage.setStatusToAll("Hold", "Pending");
-            render.init(storage.todos, tasksListArea);
-        }, 1000);
+    let taskTitleForSearch = document.querySelector('.js-taskTitleForSearch');
+    btnSearchToDo.addEventListener('click', () => {
+        if (!isEmptyInfoForSearch(taskTitleForSearch)) {
+            render.enablePreloader();
+            addTimeout(() => {
+                let taskTitleForSearchValue = taskTitleForSearch.value;
+                let filteredTodos = storage.findTodos(taskTitleForSearchValue);
+                btnShowDefaultTasks.classList.add('active');
+                clearInputFields([taskTitleForSearch]);
+                render.init(filteredTodos, tasksListArea);
+            })
+        }
     })
 }
 
-bulkActionsBtnDone.addEventListener('click', () => {
-    preloader.setPreloader(preloaderWrapper);
-    setTimeout(() => {
-        preloader.removePreloader(preloaderWrapper);
-        storage.setStatusToAll("Done", "Pending");
-        render.init(storage.todos, tasksListArea);
-    }, 1000);
-})
+btnShowDefaultTasks.addEventListener('click', () => { handleShowDefaultTasks(storage.todos, tasksListArea) })
+btnSortByTitle.addEventListener('click', () => { handleSortByTitle(storage.todos, tasksListArea) })
+btnSortByStatus.addEventListener('click', () => { handleSortByStatus(storage.todos, tasksListArea) })
+bulkActionsBtnHold.addEventListener('click', () => { handleSetStatusToAll(storage.todos, TODO_STATUS.hold, tasksListArea) })
+bulkActionsBtnDone.addEventListener('click', () => { handleSetStatusToAll(storage.todos, TODO_STATUS.done, tasksListArea) })
+bulkActionsBtnRemove.addEventListener('click', () => { handleRemoveAllTodos(tasksListArea) })
 
-bulkActionsBtnRemove.addEventListener('click', () => {
-    preloader.setPreloader(preloaderWrapper);
-    setTimeout(() => {
-        preloader.removePreloader(preloaderWrapper);
+//secondary functions
+const addNewToDo = (titleDOMElement, descriptionDOMElement) => {
+    let [titleValue, descriptionValue] = getInfoForNewTodo(titleDOMElement, descriptionDOMElement)
+    let todo = new TodoItem(titleValue, descriptionValue);
+    storage.addTodo(todo);
+}
+
+const getInfoForNewTodo = (titleDOMElement, descriptionDOMElement) => {
+    let taskTitleValue = titleDOMElement.value;
+    let taskDescriptionValue = descriptionDOMElement.value;
+    return [taskTitleValue, taskDescriptionValue];
+}
+
+const isEmptyInfoForNewToDo = (titleDOMElement, descriptionDOMElement) => {
+    let [titleValue, descriptionValue] = getInfoForNewTodo(titleDOMElement, descriptionDOMElement)
+    return titleValue.length == 0 || descriptionValue == 0 ? true : false;
+}
+
+const isEmptyInfoForSearch = (titleDOMElement) => {
+    let titleValue = titleDOMElement.value;
+    return titleValue.length == 0 ? true : false;
+}
+
+const clearInputFields = (inputFields) => {
+    inputFields.forEach(item => item.value = '');
+}
+
+const addTimeout = (cb, ...paramsOfCb) => {
+    setTimeout(() => cb(...paramsOfCb), 1000);
+}
+
+//сlick handlers
+
+const handleAddToDo = (todos, taskTitle, taskDescription, printArea) => {
+    if (!isEmptyInfoForNewToDo(taskTitle, taskDescription)) {
+        render.enablePreloader();
+        addTimeout(() => {
+            addNewToDo(taskTitle, taskDescription);
+            render.init(todos, printArea);
+            clearInputFields([taskTitle, taskDescription]);
+        })
+    }
+}
+
+const handleShowDefaultTasks = (todos, printArea) => {
+    render.enablePreloader();
+    addTimeout(() => {
+        render.init(todos, printArea);
+        btnShowDefaultTasks.classList.remove('active');
+    })
+}
+
+const handleSortByTitle = (todos, printArea) => {
+    render.enablePreloader();
+    addTimeout(() => {
+        let sortedTodos = storage.sortByTitle(todos);
+        render.init(sortedTodos, printArea);
+    })
+}
+
+const handleSortByStatus = (todos, printArea) => {
+    render.enablePreloader();
+    addTimeout(() => {
+        let sortedTodos = storage.sortByStatus(todos);
+        render.init(sortedTodos, printArea);
+    })
+}
+
+const handleSetStatusToAll = (todos, status, printArea) => {
+    render.enablePreloader();
+    addTimeout(() => {
+        storage.setStatusToAll(status);
+        render.init(todos, printArea);
+    })
+}
+
+const handleRemoveAllTodos = (printArea) => {
+    render.enablePreloader();
+    addTimeout(() => {
         storage.removeAllTodos();
-        render.init(storage.todos, tasksListArea);
-    }, 1000);
-})
+        render.init(storage.todos, printArea);
+    })
+}
+
 
