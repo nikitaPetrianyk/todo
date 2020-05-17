@@ -31,6 +31,14 @@ storage.addTodo(todoItem1);
 let render = new RenderTodos();
 render.init(storage.todos, tasksListArea);
 
+
+const addNewToDo = (titleDOMElement, descriptionDOMElement) => {
+    let taskTitleValue = titleDOMElement.value;
+    let taskDescriptionValue = descriptionDOMElement.value;
+    let todo = new TodoItem(taskTitleValue, taskDescriptionValue);
+    storage.addTodo(todo);
+}
+
 {
     let taskTitle = document.querySelector('.js-taskTitle');
     let taskDescription = document.querySelector('.js-taskDescription');
@@ -39,11 +47,8 @@ render.init(storage.todos, tasksListArea);
         preloader.setPreloader(preloaderWrapper);
         setTimeout(() => {
             preloader.removePreloader(preloaderWrapper);
-            let taskTitleValue = taskTitle.value;
-            let taskDescriptionValue = taskDescription.value;
-            let todo = new TodoItem(taskTitleValue, taskDescriptionValue);
-            storage.addTodo(todo);
-            render.printTodos(storage.todos, tasksListArea);
+            addNewToDo(taskTitle, taskDescription);
+            render.init(storage.todos, tasksListArea);
             taskTitle.value = "";
             taskDescription.value = "";
         }, 1000);
@@ -70,7 +75,7 @@ btnSearchToDo.addEventListener('click', () => {
         let filteredTodos = storage.findTodos(taskTitleForSearchValue);
         btnShowDefaultTasks.classList.add('active');
         taskTitleForSearch.value = "";
-        render.printTodos(filteredTodos, tasksListArea);
+        render.init(filteredTodos, tasksListArea);
     }, 1000);
 })
 
@@ -78,7 +83,7 @@ btnShowDefaultTasks.addEventListener('click', () => {
     preloader.setPreloader(preloaderWrapper);
     setTimeout(() => {
         preloader.removePreloader(preloaderWrapper);
-        render.printTodos(storage.todos, tasksListArea);
+        render.init(storage.todos, tasksListArea);
         btnShowDefaultTasks.classList.remove('active');
     }, 1000);
 })
@@ -88,7 +93,7 @@ btnSortByTitle.addEventListener('click', () => {
     setTimeout(() => {
         preloader.removePreloader(preloaderWrapper);
         let sortedTodos = storage.sortByTitle(storage.todos);
-        render.printTodos(sortedTodos, tasksListArea);
+        render.init(sortedTodos, tasksListArea);
     }, 1000);
 })
 
@@ -97,7 +102,7 @@ btnSortByStatus.addEventListener('click', () => {
     setTimeout(() => {
         preloader.removePreloader(preloaderWrapper);
         let sortedTodos = storage.sortByStatus(storage.todos);
-        render.printTodos(sortedTodos, tasksListArea);
+        render.init(sortedTodos, tasksListArea);
     }, 1000);
 
 })
@@ -127,7 +132,7 @@ bulkActionsBtnRemove.addEventListener('click', () => {
     setTimeout(() => {
         preloader.removePreloader(preloaderWrapper);
         storage.removeAllTodos();
-        render.printTodos(storage.todos, tasksListArea);
+        render.init(storage.todos, tasksListArea);
     }, 1000);
 })
 

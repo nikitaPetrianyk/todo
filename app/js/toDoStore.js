@@ -62,13 +62,9 @@ class TodoStorage {
     makeArrayOfSubcollections() {
         let [pendingTodos, holdedTodos, doneTodos] = [[], [], []];
         this.todos.forEach(item => {
-            if (item.status === "Pending") {
-                pendingTodos.push(item)
-            } else if (item.status === "Hold") {
-                holdedTodos.push(item);
-            } else {
-                doneTodos.push(item)
-            }
+            (status === "Pending") ? pendingTodos.push(item) :
+                (status === "Hold") ? holdedTodos.push(item) :
+                    doneTodos.push(item)
         })
         let arrayOfSubcollections = [doneTodos, holdedTodos, pendingTodos];
         return arrayOfSubcollections;
