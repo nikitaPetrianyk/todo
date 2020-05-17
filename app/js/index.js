@@ -58,6 +58,7 @@ const addNewToDo = (titleDOMElement, descriptionDOMElement) => {
 
 
 let taskTitleForSearch = document.querySelector('.js-taskTitleForSearch');
+// btnSearchToDo.setAttribute('disabled', 'disable')
 taskTitleForSearch.addEventListener('keyup', () => {
     value = taskTitleForSearch.value;
     if (value.length !== 0) {

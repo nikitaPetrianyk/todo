@@ -164,6 +164,24 @@ class RenderTodos {
     this.setListener('click', btnsCancel[index], this.closeEditingMenu, editWrap, itemWrap, index);
   }
 
+  handleDeleteBtnClick(todos, index, printArea) {
+    storage.removeToDo(todos[index], index);
+    let updatedTodosList = storage.getTodos();
+    this.init(updatedTodosList, printArea);
+  }
+
+  handleFreezeBtns(todo, index, status) {
+    this.changeBtnStatus(todo, index);
+    this.freezeActions(index, status);
+  }
+
+  handleUpdateToDoStatus(todos, index, status, statusPending = "Pending") {
+    let changedToDo = storage.setStatus(todos[index], status, statusPending);
+    todos.splice(index, changedToDo);
+    this.changeToDoStatus(todos, index);
+    this.handleFreezeBtns(todos[index], index, todos[index].status);
+  }
+
   subscribeListeners(todos, printArea) {
     let tasksListItem = document.querySelectorAll('.js-tasksListItem');
     for (let i = 0; i < tasksListItem.length; i++) {
@@ -171,27 +189,12 @@ class RenderTodos {
         if (event.target.classList.contains('js-taskBtnEdit')) {
           this.enableEditingmode(todos, i, printArea);
         } else if (event.target.classList.contains('js-taskBtnDelete')) {
-          let preloaderWrapper = document.querySelector('.js-preloaderWrapper');
-          let preloader = new Preloader();
-          preloader.setPreloader(preloaderWrapper);
-          setTimeout(() => {
-            preloader.removePreloader(preloaderWrapper);
-            storage.removeToDo(todos[i], i);
-            todos = storage.getTodos();
-            this.init(todos, printArea);
-          }, 1000);
+          this.enablePreloader();
+          this.addTimeout(() => this.handleDeleteBtnClick(todos, i, printArea))
         } else if (event.target.classList.contains('js-taskBtnHold')) {
-          let changedToDo = storage.setStatus(todos[i], "Hold", "Pending");
-          todos.splice(i, changedToDo)
-          this.changeToDoStatus(todos, i);
-          this.changeBtnStatus(todos[i], i);
-          this.freezeActions(i, todos[i].status);
+          this.handleUpdateToDoStatus(todos, i, "Hold");
         } else if (event.target.classList.contains('js-taskBtnDone')) {
-          let changedToDo = storage.setStatus(todos[i], "Done", "Pending");
-          todos.splice(i, changedToDo)
-          this.changeToDoStatus(todos, i);
-          this.changeBtnStatus(todos[i], i);
-          this.freezeActions(i, todos[i].status);
+          this.handleUpdateToDoStatus(todos, i, "Done");
         }
       })
     }
