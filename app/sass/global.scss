@@ -5,10 +5,34 @@ body {
 }
 
 .container {
-  max-width: 700px;
-  width: 100%;
+  max-width: 900px;
+  padding: 0 15px;
   margin: 0 auto;
-  padding: 0px 20px;
+}
+
+.l-flex {
+  display: flex;
+}
+
+.l-flex--row {
+  flex-direction: row;
+}
+
+.l-flex--column {
+  flex-direction: column;
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.btn--group--column {
+  flex-direction: column;
+}
+
+.btn-group--items-between {
+  justify-content: space-between;
 }
 
 .inp {
@@ -21,6 +45,10 @@ body {
   background-color: transparent;
 }
 
+.inp--width {
+  width: 95%;
+}
+
 .inp[placeholder] {
   color: black;
   font-size: 17px;
@@ -30,12 +58,34 @@ body {
   font-family: "Monttserrat", sans-serif;
   outline: none;
   cursor: pointer;
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 5px 0px;
   background-color: transparent;
   font-weight: bold;
   transition: ease-in-out 0.5s;
+}
+
+.btn--default {
+  border: 2px solid black;
+  padding: 5px 0px;
+}
+
+.btn--indent {
+  margin-right: 20px;
+}
+
+.btn--rounded {
+  border-radius: 5px;
+}
+
+.btn--big {
+  width: 100%;
+}
+
+.btn--middle {
+  width: 50%;
+}
+
+.btn--small {
+  width: 23%;
 }
 
 .btn:hover {

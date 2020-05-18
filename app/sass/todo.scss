@@ -1,4 +1,5 @@
 $danger: #cf350a;
+
 .todo {
   position: relative;
   margin: 25px 0px;
@@ -10,11 +11,13 @@ $danger: #cf350a;
 
   &__btns-wrap {
     display: flex;
+  }
+
+  &__btns-wrap--width {
     margin: 0px -10px;
   }
 
   &__tabs-btn {
-    flex-basis: 50%;
     padding: 10px 5px;
     font-weight: bold;
     border: none;
@@ -39,6 +42,7 @@ $danger: #cf350a;
     border-right: 2px solid transparent;
     border-bottom-right-radius: 10px;
   }
+
   &__tabs-btn:last-child {
     border-top-right-radius: 10px;
     border-left: 2px solid transparent;
@@ -58,6 +62,7 @@ $danger: #cf350a;
   &__tabs {
     position: relative;
     min-height: 260px;
+
     &-item {
       padding: 10px;
       border: 2px solid black;
@@ -69,9 +74,28 @@ $danger: #cf350a;
       transform: scaleY(0);
       transition: ease-in 0.3s;
     }
+
     &-item.active {
       transform: none;
     }
+  }
+
+  &__tasks-actions {
+    margin-top: 20px;
+  }
+
+  //tasks-list
+  &__tasks-list {
+    margin-top: 30px;
+  }
+}
+
+//tab-item
+.tab-item {
+  display: flex;
+
+  &__info {
+    display: flex;
   }
 
   &__inp-title {
@@ -81,38 +105,21 @@ $danger: #cf350a;
     font-size: 17px;
   }
 
-  &__task-title {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-
+  &__task-title,
   &__task-description {
-    width: 100%;
     margin-bottom: 15px;
   }
 
-  &__btn-add,
-  &__btn-search,
-  &__btn-default {
-    width: 100%;
+  &__btn-search {
+    margin-bottom: 15px;
   }
 
   &__btn-default {
-    margin-top: 15px;
     display: none;
   }
 
   &__btn-default.active {
     display: block;
-  }
-
-  &__tasks-actions {
-    margin-top: 30px;
-  }
-
-  //tasks-list
-  &__tasks-list {
-    margin-top: 30px;
   }
 }
 
@@ -145,6 +152,7 @@ $danger: #cf350a;
     display: inline-block;
     width: 100%;
     cursor: pointer;
+    font-weight: bold;
     min-height: 30px;
     display: flex;
     align-items: center;
@@ -197,58 +205,7 @@ $danger: #cf350a;
   color: $danger;
 }
 
-//todos
-.tasks-list {
-  display: flex;
-  flex-direction: column;
-
-  &__item-wrap.hide {
-    transform: translateY(150px);
-  }
-
-  &__item-wrap {
-    transition: 0.5s ease-in;
-    transform: translateY(-110px);
-  }
-
-  &__item {
-    position: relative;
-    padding: 35px 10px 15px 10px;
-    border: 2px solid black;
-    border-radius: 5px;
-    overflow: hidden;
-    margin: 0;
-    max-height: 150px;
-    height: 100%;
-
-    &-title {
-      margin-bottom: 15px;
-    }
-
-    &-description {
-      margin-bottom: 15px;
-    }
-
-    &-status {
-      position: absolute;
-      right: 0px;
-      top: 0;
-      border: none;
-      border-left: 2px solid black;
-      border-bottom-left-radius: 5px;
-      border-bottom: 2px solid black;
-      padding: 3px 15px;
-    }
-
-    &-btn {
-      flex-basis: 25%;
-    }
-
-    &-btn + &-btn {
-      margin-left: 8px;
-    }
-  }
-
+.cards-list {
   &__empty {
     font-size: 20px;
     font-weight: bold;
@@ -258,42 +215,123 @@ $danger: #cf350a;
     color: $danger;
     line-height: 25px;
   }
+}
 
-  &__edit-title,
-  &__edit-description {
-    width: 80%;
-    margin-bottom: 10px;
+.card + .card {
+  margin-top: 30px;
+}
+
+.card {
+  position: relative;
+  padding: 35px 10px 15px 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 0;
+  min-height: 120px;
+
+  &__status {
+    position: absolute;
+    right: 0px;
+    top: 0;
+    border: none;
+    border-left: 2px solid black;
+    border-bottom-left-radius: 5px;
+    border-bottom: 2px solid black;
+    padding: 3px 15px;
+  }
+
+  &__edit-wrap {
+    display: none;
+  }
+
+  &__edit-wrap.active {
     display: block;
+  }
+
+  &__inner.hide {
+    display: none;
+  }
+
+  &__item-title,
+  &__item-description {
+    margin-bottom: 15px;
+  }
+
+  &__inner {
+    display: block;
+    display: flex;
+  }
+
+  &__inner--column {
+    flex-direction: column;
+  }
+
+  &__info-wrap {
+    display: flex;
+    padding: 5px;
+  }
+
+  &__info-wrap--column {
+    flex-direction: column;
+  }
+
+  &__edit-title {
+    margin-bottom: 15px;
+  }
+
+  &__edit-description {
+    margin-bottom: 15px;
   }
 
   &__edit-btn {
     padding: 5px 30px;
     font-weight: bold;
-    margin-bottom: 15px;
     display: inline-block;
   }
 
-  &__edit-wrap {
-    transition: 0.5s ease-in;
-    transform: translateY(-150px);
+  &__btns-wrap {
+    padding: 10px 0px;
   }
 
-  &__edit-wrap.active {
-    transform: translateY(0px);
-  }
-
-  .js-taskBtnEdit[disabled="disable"],
-  .js-taskBtnDone[disabled="disable"],
-  .js-taskBtnDelete[disabled="disable"],
-  .js-taskBtnHold[disabled="disable"] {
+  .js-taskBtnEdit[disabled],
+  .js-taskBtnDone[disabled],
+  .js-taskBtnDelete[disabled],
+  .js-taskBtnHold[disabled] {
     opacity: 0.15;
   }
+}
 
-  &__item + &__item {
-    margin-top: 30px;
+@media screen and(max-width: 600px) {
+  .todo__inner {
+    font-size: 14px;
   }
 
-  &__btns-wrap {
-    display: flex;
+  .todo__tasks-actions {
+    margin-top: 15px;
+  }
+
+  .tab-item__inp-title {
+    font-size: 14px;
+  }
+
+  .inp[placeholder] {
+    font-size: 15px;
+  }
+
+  .card {
+    line-height: 18px;
+    &__item-btn,
+    &__edit-btn {
+      margin-bottom: 10px;
+    }
+
+    .btn--small {
+      width: calc(50% - 15px);
+    }
+  }
+
+  .cards-list__empty {
+    font-size: 15px;
   }
 }

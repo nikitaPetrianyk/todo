@@ -10,98 +10,129 @@
   <body>
     <div class="container">
       <section class="todo">
-        <div class="preloader-wrapper js-preloaderWrapper">
-          <div class="bubblingG">
-            <span id="bubblingG_1"></span>
-            <span id="bubblingG_2"></span>
-            <span id="bubblingG_3"></span>
+        <div class="todo__inner l-flex l-flex--column">
+          <div class="preloader-wrapper js-preloaderWrapper">
+            <div class="bubblingG">
+              <span id="bubblingG_1"></span>
+              <span id="bubblingG_2"></span>
+              <span id="bubblingG_3"></span>
+            </div>
           </div>
-        </div>
-        <div class="todo__tabs">
-          <div class="todo__btns-wrap">
-            <button class="todo__tabs-btn btn js-tabsBtn active">
-              Add New
-            </button>
-            <button class="todo__tabs-btn btn js-tabsBtn">
-              Search
-            </button>
-          </div>
-          <div class="todo__tabs-item js-tabsItem active">
-            <label for="task-title" class="todo__inp-title">Title</label>
-            <input
-              id="task-title"
-              type="text"
-              class="todo__task-title inp js-taskTitle"
-            />
-            <label for="task-description" class="todo__inp-title"
-              >Description</label
+          <div class="todo__tabs">
+            <div
+              class="todo__btns-wrap todo__btns-wrap--width btn-group btn-group--row"
             >
-            <input
-              id="task-description"
-              type="text"
-              class="todo__task-description inp js-taskDescription"
-            />
-            <button class="todo__btn-add btn js-btnAddToDo">Add</button>
-          </div>
-          <div class="todo__tabs-item js-tabsItem">
-            <label for="task-title" class="todo__inp-title">Title</label>
-            <input
-              id="task-title"
-              type="text"
-              placeholder="Search by title"
-              class="todo__task-title inp js-taskTitleForSearch"
-            />
-            <button
-              class="todo__btn-search btn js-btnSearchToDo"
-              disabled="disable"
+              <button
+                class="todo__tabs-btn btn btn-default btn--middle js-tabsBtn active"
+              >
+                Add New
+              </button>
+              <button
+                class="todo__tabs-btn btn btn-default btn--middle js-tabsBtn"
+              >
+                Search
+              </button>
+            </div>
+            <div
+              class="tab-item l-flex l-flex--column todo__tabs-item js-tabsItem active"
             >
-              Search
-            </button>
-            <button class="todo__btn-default btn js-btnShowAllTasks">
-              Show all tasks
-            </button>
-          </div>
-        </div>
-        <ul class="todo__tasks-actions tasks-actions">
-          <li class="tasks-actions__item">
-            <a class="tasks-actions__item-title">Bulk actions</a>
-            <ul class="tasks-actions__item-list actions-list">
-              <li class="actions-list__item">
-                <button class="actions-list__btn js-bulkActionsBtnHold">
-                  Hold/Unhold
-                </button>
-              </li>
-              <li class="actions-list__item">
-                <button class="actions-list__btn js-bulkActionsBtnDone">
-                  Mark as done
-                </button>
-              </li>
-              <li class="actions-list__item">
-                <button
-                  class="actions-list__btn actions-list__btn--highlighted js-bulkActionsBtnRemove"
+              <div class="tab-item__info l-flex l-flex--column">
+                <label for="task-title" class="tab-item__inp-title"
+                  >Title</label
                 >
-                  Remove
+                <input
+                  id="task-title"
+                  type="text"
+                  class="tab-item__task-title inp inp--width js-taskTitle"
+                />
+                <label for="task-description" class="tab-item__inp-title"
+                  >Description</label
+                >
+                <input
+                  id="task-description"
+                  type="text"
+                  class="tab-item__task-description inp inp--width js-taskDescription"
+                />
+              </div>
+              <div class="tab-item__btns-wrap btn-group btn-group--column">
+                <button
+                  class="tab-item__btn-add btn btn--default btn--big btn--rounded js-btnAddToDo"
+                >
+                  Add
                 </button>
-              </li>
-            </ul>
-          </li>
-          <li class="tasks-actions__item">
-            <span class="tasks-actions__item-title">Sort</span>
-            <ul class="tasks-actions__item-list actions-list">
-              <li class="actions-list__item">
-                <button class="actions-list__btn js-btnSortByStatus">
-                  By status
+              </div>
+            </div>
+            <div
+              class="tab-item l-flex l-flex--column todo__tabs-item js-tabsItem"
+            >
+              <div class="tab-item__info l-flex l-flex--column">
+                <label for="search-title" class="tab-item__inp-title"
+                  >Title</label
+                >
+                <input
+                  id="search-title"
+                  type="text"
+                  placeholder="Search by title"
+                  class="tab-item__task-title inp inp--width js-taskTitleForSearch"
+                />
+              </div>
+              <div class="tab-item__btns-wrap btn-group btn-group--column">
+                <button
+                  class="tab-item__btn-search btn btn--default btn--big btn--rounded js-btnSearchToDo"
+                >
+                  Search
                 </button>
-              </li>
-              <li class="actions-list__item">
-                <button class="actions-list__btn js-btnSortByTitle">
-                  By title
+                <button
+                  class="tab-item__btn-default btn btn--default btn--big btn--rounded js-btnShowAllTasks"
+                >
+                  Show all tasks
                 </button>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <div class="todo__tasks-list tasks-list js-tasksList"></div>
+              </div>
+            </div>
+          </div>
+          <ul class="todo__tasks-actions tasks-actions">
+            <li class="tasks-actions__item">
+              <a class="tasks-actions__item-title">Bulk actions</a>
+              <ul class="tasks-actions__item-list actions-list">
+                <li class="actions-list__item">
+                  <button class="actions-list__btn btn js-bulkActionsBtnHold">
+                    Hold/Unhold
+                  </button>
+                </li>
+                <li class="actions-list__item">
+                  <button class="actions-list__btn btn js-bulkActionsBtnDone">
+                    Mark as done
+                  </button>
+                </li>
+                <li class="actions-list__item">
+                  <button
+                    class="actions-list__btn btn actions-list__btn--highlighted js-bulkActionsBtnRemove"
+                  >
+                    Remove
+                  </button>
+                </li>
+              </ul>
+            </li>
+            <li class="tasks-actions__item">
+              <a class="tasks-actions__item-title">Sort</a>
+              <ul class="tasks-actions__item-list actions-list">
+                <li class="actions-list__item">
+                  <button class="actions-list__btn btn js-btnSortByStatus">
+                    By status
+                  </button>
+                </li>
+                <li class="actions-list__item">
+                  <button class="actions-list__btn btn js-btnSortByTitle">
+                    By title
+                  </button>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <div
+            class="todo__tasks-list cards-list l-flex l-flex--column js-tasksList"
+          ></div>
+        </div>
       </section>
     </div>
     <script src="js/tabs.js"></script>
