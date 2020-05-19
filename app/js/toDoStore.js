@@ -40,7 +40,7 @@ class TodoStorage {
         return changingTodo;
     }
 
-    setStatusToAll(status, statusPending) {
+    setStatusToAll(status, statusPending = "Pending") {
         this.todos.forEach(item => {
             this.hasStatus(item, status) ? item.status = status : item.status = statusPending;
         })
@@ -50,10 +50,8 @@ class TodoStorage {
         let sortedByAlphabet = todos.sort((firstValue, secondValue) => {
             let lowerCaseFirstValue = firstValue.title[0].toLowerCase();
             let lowerCaseSecondValue = secondValue.title[0].toLowerCase();
-            if (lowerCaseFirstValue < lowerCaseSecondValue)
-                return -1
-            if (lowerCaseFirstValue > lowerCaseSecondValue)
-                return 1
+            if (lowerCaseFirstValue < lowerCaseSecondValue) return -1
+            if (lowerCaseFirstValue > lowerCaseSecondValue) return 1
             return 0;
         });
         return sortedByAlphabet;

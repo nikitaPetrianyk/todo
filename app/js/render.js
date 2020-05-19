@@ -3,36 +3,40 @@ class RenderTodos {
   constructor() { }
 
   printInfoAboutEmpty(printArea) {
-    printArea.innerHTML = `<p class = "tasks-list__empty">Todos list is empty.</p>`
+    printArea.innerHTML = `<p class = "cards-list__empty">Todos list is empty.</p>`
   }
 
   getTemplateTodo(status, title, description) {
-    return `  <div class="tasks-list__item js-tasksListItem">
-                  <span class="tasks-list__item-status js-toDoStatus">${status}</span>
-                  <div class = "tasks-list__edit-wrap js-editWrap">
-                      <input type="text" class = "tasks-list__edit-title js-editTitle inp" value = "${title}">
-                      <input type="text" class = "tasks-list__edit-description js-editDescription inp" value = "${description}">
-                      <button class="tasks-list__edit-btn btn js-btnSave">Save</button>
-                      <button class="tasks-list__edit-btn btn js-btnCancel">Cancel</button>
+    return `  <div class="card cards-list__item js-tasksListItem">
+                  <span class="card__status js-toDoStatus">${status}</span>
+                  <div class = "card__edit-wrap card__edit-wrap--column js-editWrap">
+                      <input type="text" class = "card__edit-title js-editTitle inp inp--width" value = "${title}">
+                      <input type="text" class = "card__edit-description js-editDescription inp inp--width" value = "${description}">
+                      <div class = "card__btns-wrap btn-group btn-group--row">
+                      <button class="card__edit-btn btn btn--default btn--small btn--indent btn--rounded js-btnSave">Save</button>
+                      <button class="card__edit-btn btn btn--default btn--small btn--rounded js-btnCancel">Cancel</button>
+                      </div>
                   </div>
-                  <div class ="tasks-list__item-wrap js-itemWrap">
-                      <h3 class="tasks-list__item-title">${title}</h3>
-                      <p class="tasks-list__item-description">${description}</p>
-                      <div class="tasks-list__btns-wrap">
-                          <button class="tasks-list__item-btn btn js-taskBtnEdit">
+                  <div class ="card__inner card__inner--column js-itemWrap">
+                      <div class="card__info-wrap card__info-wrap--column">
+                          <h3 class="card__item-title">${title}</h3>
+                          <p class="card__item-description">${description}</p>
+                      </div>
+                      <div class="card__btns-wrap btn-group btn--group--row btn-group--items-between">
+                          <button class="card__item-btn btn btn--default btn--small btn--rounded js-taskBtnEdit">
                             Edit
                           </button>
-                          <button class="tasks-list__item-btn btn js-taskBtnDelete">
+                          <button class="card__item-btn btn btn--default btn--small btn--rounded js-taskBtnDelete">
                             Delete
                           </button>
-                          <button class="tasks-list__item-btn btn js-taskBtnHold">
+                          <button class="card__item-btn btn btn--default btn--small btn--rounded js-taskBtnHold">
                             Hold
                           </button>
-                          <button class="tasks-list__item-btn btn js-taskBtnDone">
+                          <button class="card__item-btn btn btn--default btn--small btn--rounded js-taskBtnDone">
                             Done
                           </button>
-                        </div>
-                    </div>
+                      </div>
+                  </div>
                 </div>`
   }
 
@@ -54,7 +58,7 @@ class RenderTodos {
     this.subscribeListeners(todos, printArea);
   }
 
-  changeToDoStatus(todos, index) {
+  changeToDoItemStatus(todos, index) {
     let todosStatuses = document.querySelectorAll('.js-toDoStatus');
     todosStatuses[index].innerHTML = todos[index].status;
   }
@@ -178,7 +182,7 @@ class RenderTodos {
   handleUpdateToDoStatus(todos, index, status, statusPending = "Pending") {
     let changedToDo = storage.setStatus(todos[index], status, statusPending);
     todos.splice(index, changedToDo);
-    this.changeToDoStatus(todos, index);
+    this.changeToDoItemStatus(todos, index);
     this.handleFreezeBtns(todos[index], index, todos[index].status);
   }
 

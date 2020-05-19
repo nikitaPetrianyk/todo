@@ -16,6 +16,11 @@ let bulkActionsBtnHold = document.querySelector('.js-bulkActionsBtnHold');
 let bulkActionsBtnDone = document.querySelector('.js-bulkActionsBtnDone');
 let bulkActionsBtnRemove = document.querySelector('.js-bulkActionsBtnRemove');
 
+//info for new Todo and Search Todo
+let taskTitle = document.querySelector('.js-taskTitle');
+let taskDescription = document.querySelector('.js-taskDescription');
+let taskTitleForSearch = document.querySelector('.js-taskTitleForSearch');
+
 const TODO_STATUS = {
     hold: 'Hold',
     pending: 'Pending',
@@ -24,36 +29,16 @@ const TODO_STATUS = {
 
 let storage = new TodoStorage();
 let preloader = new Preloader();
+let render = new RenderTodos();
 
 let defaultTaskOne = new TodoItem('Создать другие таски', "Ввести данные таска и нажать на кнопку 'Add'");
 storage.addTodo(defaultTaskOne);
 
-let render = new RenderTodos();
-render.init(storage.todos, tasksListArea);
+addTimeout(() => render.init(storage.todos, tasksListArea));
 
 //button listeners
-{
-    let taskTitle = document.querySelector('.js-taskTitle');
-    let taskDescription = document.querySelector('.js-taskDescription');
-    btnAddToDo.addEventListener('click', () => handleAddToDo(storage.todos, taskTitle, taskDescription, tasksListArea));
-}
-
-{
-    let taskTitleForSearch = document.querySelector('.js-taskTitleForSearch');
-    btnSearchToDo.addEventListener('click', () => {
-        if (!isEmptyInfoForSearch(taskTitleForSearch)) {
-            render.enablePreloader();
-            addTimeout(() => {
-                let taskTitleForSearchValue = taskTitleForSearch.value;
-                let filteredTodos = storage.findTodos(taskTitleForSearchValue);
-                btnShowDefaultTasks.classList.add('active');
-                clearInputFields([taskTitleForSearch]);
-                render.init(filteredTodos, tasksListArea);
-            })
-        }
-    })
-}
-
+btnAddToDo.addEventListener('click', () => handleAddToDo(storage.todos, taskTitle, taskDescription, tasksListArea));
+btnSearchToDo.addEventListener('click', () => { handleSearchToDo(taskTitleForSearch); })
 btnShowDefaultTasks.addEventListener('click', () => { handleShowDefaultTasks(storage.todos, tasksListArea) })
 btnSortByTitle.addEventListener('click', () => { handleSortByTitle(storage.todos, tasksListArea) })
 btnSortByStatus.addEventListener('click', () => { handleSortByStatus(storage.todos, tasksListArea) })
@@ -62,6 +47,11 @@ bulkActionsBtnDone.addEventListener('click', () => { handleSetStatusToAll(storag
 bulkActionsBtnRemove.addEventListener('click', () => { handleRemoveAllTodos(tasksListArea) })
 
 //secondary functions
+function addTimeout(cb, ...paramsOfCb) {
+    render.enablePreloader();
+    setTimeout(() => cb(...paramsOfCb), 1000);
+}
+
 const addNewToDo = (titleDOMElement, descriptionDOMElement) => {
     let [titleValue, descriptionValue] = getInfoForNewTodo(titleDOMElement, descriptionDOMElement)
     let todo = new TodoItem(titleValue, descriptionValue);
@@ -88,10 +78,6 @@ const clearInputFields = (inputFields) => {
     inputFields.forEach(item => item.value = '');
 }
 
-const addTimeout = (cb, ...paramsOfCb) => {
-    setTimeout(() => cb(...paramsOfCb), 1000);
-}
-
 //сlick handlers
 
 const handleAddToDo = (todos, taskTitle, taskDescription, printArea) => {
@@ -101,6 +87,19 @@ const handleAddToDo = (todos, taskTitle, taskDescription, printArea) => {
             addNewToDo(taskTitle, taskDescription);
             render.init(todos, printArea);
             clearInputFields([taskTitle, taskDescription]);
+        })
+    }
+}
+
+const handleSearchToDo = (taskTitleForSearch) => {
+    if (!isEmptyInfoForSearch(taskTitleForSearch)) {
+        render.enablePreloader();
+        addTimeout(() => {
+            let taskTitleForSearchValue = taskTitleForSearch.value;
+            let filteredTodos = storage.findTodos(taskTitleForSearchValue);
+            btnShowDefaultTasks.classList.add('active');
+            render.init(filteredTodos, tasksListArea);
+            clearInputFields([taskTitleForSearch]);
         })
     }
 }
