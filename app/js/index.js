@@ -5,7 +5,8 @@ let preloaderWrapper = document.querySelector('.js-preloaderWrapper')
 //tabs btns
 let btnAddToDo = document.querySelector('.js-btnAddToDo');
 let btnSearchToDo = document.querySelector('.js-btnSearchToDo');
-let btnShowDefaultTasks = document.querySelector('.js-btnShowAllTasks');
+let btnShowDefaultTasksWrap = document.querySelector('.js-btnShowDefaultTasksWrap');
+let btnShowDefaultTasks = document.querySelector('.js-btnShowDefaultTasks');
 
 //sorting btns
 let btnSortByTitle = document.querySelector('.js-btnSortByTitle');
@@ -97,7 +98,7 @@ const handleSearchToDo = (taskTitleForSearch) => {
         addTimeout(() => {
             let taskTitleForSearchValue = taskTitleForSearch.value;
             let filteredTodos = storage.findTodos(taskTitleForSearchValue);
-            btnShowDefaultTasks.classList.add('active');
+            btnShowDefaultTasksWrap.classList.add('active');
             render.init(filteredTodos, tasksListArea);
             clearInputFields([taskTitleForSearch]);
         })
@@ -108,7 +109,7 @@ const handleShowDefaultTasks = (todos, printArea) => {
     render.enablePreloader();
     addTimeout(() => {
         render.init(todos, printArea);
-        btnShowDefaultTasks.classList.remove('active');
+        btnShowDefaultTasksWrap.classList.remove('active');
     })
 }
 

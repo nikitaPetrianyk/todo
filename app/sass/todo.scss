@@ -14,7 +14,7 @@ $danger: #cf350a;
   }
 
   &__btns-wrap--width {
-    margin: 0px -10px;
+    margin: 0px -9.5px;
   }
 
   &__tabs-btn {
@@ -110,11 +110,17 @@ $danger: #cf350a;
     margin-bottom: 15px;
   }
 
+  &__btn-add {
+    flex-basis: 100%;
+  }
+
   &__btn-search {
+    flex-basis: 100%;
     margin-bottom: 15px;
   }
 
   &__btn-default {
+    flex-basis: 100%;
     display: none;
   }
 
@@ -174,35 +180,39 @@ $danger: #cf350a;
   border: 2px solid black;
   z-index: 5;
   background-color: #fff;
-}
 
-.actions-list__item {
-  transition: ease-in 0.3s;
-}
-
-.actions-list__item + .actions-list__item {
-  border-top: 2px solid black;
-}
-
-.actions-list__item:hover {
-  cursor: pointer;
-  .actions-list__btn {
-    font-size: 17px;
-    padding: 7px 3px;
+  .btn {
+    border: none;
+    text-align: left;
   }
-}
 
-.actions-list__btn {
-  width: 100%;
-  padding: 5px 3px;
-  border: none;
-  background-color: transparent;
-  text-align: left;
-  transition: ease-in 0.3s;
-}
+  &__item {
+    transition: ease-in 0.3s;
+  }
 
-.actions-list__btn--highlighted {
-  color: $danger;
+  &__item + &__item {
+    border-top: 2px solid black;
+  }
+
+  &__item:hover {
+    cursor: pointer;
+    .btn {
+      padding: 5px 8px;
+    }
+  }
+
+  &__btn {
+    width: 100%;
+    padding: 0px;
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    transition: ease-in 0.3s;
+  }
+
+  &__btn--highlighted {
+    color: $danger;
+  }
 }
 
 .cards-list {
@@ -285,13 +295,16 @@ $danger: #cf350a;
   }
 
   &__edit-btn {
-    padding: 5px 30px;
     font-weight: bold;
-    display: inline-block;
+    flex-basis: calc(50% - 10px);
   }
 
   &__btns-wrap {
     padding: 10px 0px;
+  }
+
+  &__item-btn {
+    flex-basis: calc(25% - 10px);
   }
 
   .js-taskBtnEdit[disabled],
@@ -324,6 +337,10 @@ $danger: #cf350a;
     &__item-btn,
     &__edit-btn {
       margin-bottom: 10px;
+    }
+
+    &__item-btn {
+      flex-basis: calc(50% - 10px);
     }
 
     .btn--small {

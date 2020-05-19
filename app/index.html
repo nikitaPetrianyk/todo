@@ -55,11 +55,13 @@
                 />
               </div>
               <div class="tab-item__btns-wrap btn-group btn-group--column">
-                <button
-                  class="tab-item__btn-add btn btn--default btn--big btn--rounded js-btnAddToDo"
-                >
-                  Add
-                </button>
+                <div class="tab-item__btn-add">
+                  <button
+                    class="btn btn--default btn--width btn--rounded js-btnAddToDo"
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
             </div>
             <div
@@ -77,16 +79,20 @@
                 />
               </div>
               <div class="tab-item__btns-wrap btn-group btn-group--column">
-                <button
-                  class="tab-item__btn-search btn btn--default btn--big btn--rounded js-btnSearchToDo"
-                >
-                  Search
-                </button>
-                <button
-                  class="tab-item__btn-default btn btn--default btn--big btn--rounded js-btnShowAllTasks"
-                >
-                  Show all tasks
-                </button>
+                <div class="tab-item__btn-search">
+                  <button
+                    class="btn btn--default btn--width btn--rounded js-btnSearchToDo"
+                  >
+                    Search
+                  </button>
+                </div>
+                <div class="tab-item__btn-default js-btnShowDefaultTasksWrap">
+                  <button
+                    class="btn btn--default btn--width btn--rounded js-btnShowDefaultTasks"
+                  >
+                    Show all tasks
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -95,21 +101,27 @@
               <a class="tasks-actions__item-title">Bulk actions</a>
               <ul class="tasks-actions__item-list actions-list">
                 <li class="actions-list__item">
-                  <button class="actions-list__btn btn js-bulkActionsBtnHold">
-                    Hold/Unhold
-                  </button>
+                  <div class="actions-list__btn">
+                    <button class="btn btn--width js-bulkActionsBtnHold">
+                      Hold/Unhold
+                    </button>
+                  </div>
                 </li>
                 <li class="actions-list__item">
-                  <button class="actions-list__btn btn js-bulkActionsBtnDone">
-                    Mark as done
-                  </button>
+                  <div class="actions-list__btn">
+                    <button class="btn btn--width js-bulkActionsBtnDone">
+                      Mark as done
+                    </button>
+                  </div>
                 </li>
                 <li class="actions-list__item">
-                  <button
-                    class="actions-list__btn btn actions-list__btn--highlighted js-bulkActionsBtnRemove"
-                  >
-                    Remove
-                  </button>
+                  <div class="actions-list__btn">
+                    <button
+                      class="btn btn--width btn--danger js-bulkActionsBtnRemove"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </li>
               </ul>
             </li>
@@ -117,14 +129,18 @@
               <a class="tasks-actions__item-title">Sort</a>
               <ul class="tasks-actions__item-list actions-list">
                 <li class="actions-list__item">
-                  <button class="actions-list__btn btn js-btnSortByStatus">
-                    By status
-                  </button>
+                  <div class="actions-list__btn">
+                    <button class="btn btn--width js-btnSortByStatus">
+                      By status
+                    </button>
+                  </div>
                 </li>
                 <li class="actions-list__item">
-                  <button class="actions-list__btn btn js-btnSortByTitle">
-                    By title
-                  </button>
+                  <div class="actions-list__btn">
+                    <button class="btn btn--width js-btnSortByTitle">
+                      By title
+                    </button>
+                  </div>
                 </li>
               </ul>
             </li>

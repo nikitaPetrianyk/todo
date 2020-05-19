@@ -12,9 +12,13 @@ class RenderTodos {
                   <div class = "card__edit-wrap card__edit-wrap--column js-editWrap">
                       <input type="text" class = "card__edit-title js-editTitle inp inp--width" value = "${title}">
                       <input type="text" class = "card__edit-description js-editDescription inp inp--width" value = "${description}">
-                      <div class = "card__btns-wrap btn-group btn-group--row">
-                      <button class="card__edit-btn btn btn--default btn--small btn--indent btn--rounded js-btnSave">Save</button>
-                      <button class="card__edit-btn btn btn--default btn--small btn--rounded js-btnCancel">Cancel</button>
+                      <div class = "card__btns-wrap btn-group btn-group--items-between">
+                          <div class = "card__edit-btn">
+                              <button class="btn btn--default btn--width btn--rounded js-btnSave">Save</button>
+                          </div>
+                          <div class = "card__edit-btn">
+                              <button class="btn btn--default btn--width btn--rounded js-btnCancel">Cancel</button>
+                          </div>
                       </div>
                   </div>
                   <div class ="card__inner card__inner--column js-itemWrap">
@@ -23,18 +27,26 @@ class RenderTodos {
                           <p class="card__item-description">${description}</p>
                       </div>
                       <div class="card__btns-wrap btn-group btn--group--row btn-group--items-between">
-                          <button class="card__item-btn btn btn--default btn--small btn--rounded js-taskBtnEdit">
-                            Edit
-                          </button>
-                          <button class="card__item-btn btn btn--default btn--small btn--rounded js-taskBtnDelete">
-                            Delete
-                          </button>
-                          <button class="card__item-btn btn btn--default btn--small btn--rounded js-taskBtnHold">
-                            Hold
-                          </button>
-                          <button class="card__item-btn btn btn--default btn--small btn--rounded js-taskBtnDone">
-                            Done
-                          </button>
+                          <div class = "card__item-btn">
+                              <button class="btn btn--default btn--width btn--rounded js-taskBtnEdit">
+                                Edit
+                              </button>
+                          </div>
+                          <div class = "card__item-btn">
+                              <button class="btn btn--default btn--width btn--rounded js-taskBtnDelete">
+                                Delete
+                              </button>
+                          </div>
+                          <div class = "card__item-btn">
+                              <button class="btn btn--default btn--width btn--rounded js-taskBtnHold">
+                                Hold
+                              </button>
+                          </div>
+                          <div class = "card__item-btn">
+                              <button class="btn btn--default btn--width btn--rounded js-taskBtnDone">
+                                Done
+                              </button>
+                          </div>
                       </div>
                   </div>
                 </div>`

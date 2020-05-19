@@ -1,3 +1,4 @@
+$danger: #cf350a;
 body {
   box-sizing: border-box;
   font-family: "Monttserrat", sans-serif;
@@ -63,20 +64,25 @@ body {
   transition: ease-in-out 0.5s;
 }
 
+.btn:hover {
+  background-color: black;
+  color: #fff;
+}
+
+.btn--danger {
+  color: $danger;
+}
+
 .btn--default {
   border: 2px solid black;
   padding: 5px 0px;
-}
-
-.btn--indent {
-  margin-right: 20px;
 }
 
 .btn--rounded {
   border-radius: 5px;
 }
 
-.btn--big {
+.btn--width {
   width: 100%;
 }
 
@@ -86,9 +92,4 @@ body {
 
 .btn--small {
   width: 23%;
-}
-
-.btn:hover {
-  background-color: black;
-  color: #fff;
 }
